@@ -7,10 +7,9 @@ def interpret(input):
         return
     
     input_arr = input.split(" ")
-    for s in input_arr:
-        s = s.replace("", " ")
     
     out = t(input_arr)
+
     return out
 
     
@@ -30,14 +29,16 @@ def t(input_arr):
 
     params = []
     
-    for _ in range(len(input_arr)):
+    while(len(input_arr) != 0):
         if(input_arr[0][0] == "("):
             params.append(t(input_arr))
         else:
             tmp = None
             if(input_arr[0][-1] == ")"):
-                tmp = input_arr.pop(0).replace(")", "")
-                params.append(tmp)
+                tmp = input_arr.pop(0)
+                if(tmp.count(")") > 1):
+                    input_arr.insert(0, tmp[tmp.find(")")+1:])                      
+                params.append(tmp.replace(")", ""))
                 break
             else:
                 tmp = input_arr.pop(0)
@@ -45,7 +46,6 @@ def t(input_arr):
 
 
     out = oper["function"](params)
-    print(out)
     return out
 
 # functions

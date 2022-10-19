@@ -9,8 +9,9 @@ def print_green(s):
 def runTests(): 
     # add test
     assert(interpret("(+ 1 2)") == 3)
+    assert(interpret("(+ 10 2)") == 12)
     assert(interpret("(+ (+ 1 1) 1)") == 3)
-    # assert(interpret("(+ 1 (+ 1 1))") == 3)
+    assert(interpret("(+ 1 (+ 1 1))") == 3)
     print_green("Tests passed: +")
     
     # bool test
