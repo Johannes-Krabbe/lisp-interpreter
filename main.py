@@ -7,8 +7,17 @@ def interpret(input):
         return
     
     input_arr = input.split(" ")
-    in_operator = input_arr[0][1:]
+    for s in input_arr:
+        s = s.replace("", " ")
     
+    out = t(input_arr)
+    return out
+
+    
+def t(input_arr):    
+    in_operator = input_arr.pop(0)
+    in_operator = in_operator.replace("(", "")
+
     oper = None
 
     for o in operators:
@@ -19,32 +28,61 @@ def interpret(input):
         raise Exception("operator does not exist: " + in_operator)
         return
 
-    out = oper["function"](int(input_arr[1]), int(input_arr[2][:1]))
+    params = []
+    
+    for _ in range(len(input_arr)):
+        if(input_arr[0][0] == "("):
+            params.append(t(input_arr))
+        else:
+            tmp = None
+            if(input_arr[0][-1] == ")"):
+                tmp = input_arr.pop(0).replace(")", "")
+                params.append(tmp)
+                break
+            else:
+                tmp = input_arr.pop(0)
+                params.append(tmp)
 
+
+    out = oper["function"](params)
+    print(out)
     return out
 
+# functions
+def add(inp):
+    return int(inp[0]) + int(inp[1])
 
-def add(in1, in2):
-    return in1 + in2
-
-def comp(in1, in2):
-    if(in1 == in2):
+def comp(inp):
+    if(inp[0] == inp[1]):
         return True
     else:
         return []
 
+def consoleLog(s):
+    print(s[0])
+    return True
 
 # constants
 
 operators = [
     {
-        "name" : "add",
         "ident" : "+",
+        "varCount": 2,
         "function": add 
     },
     {
-        "name" : "comp",
         "ident" : "=",
+        "varCount": 2,
         "function": comp
+    },
+    {
+        "ident": "print",
+        "varCount": 1,
+        "function": consoleLog
+    },
+    {
+        "ident": "list",
+        "varCount": 1,
+        "function": consoleLog
     }
 ]
