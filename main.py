@@ -50,7 +50,7 @@ def t(input_arr):
 
 # functions
 def add(inp):
-    return int(inp[0]) + int(inp[1])
+    return str(int(inp[0]) + int(inp[1]))
 
 def comp(inp):
     if(inp[0] == inp[1]):
@@ -58,31 +58,52 @@ def comp(inp):
     else:
         return []
 
-def consoleLog(s):
-    print(s[0])
+def consoleLog(inp):
+    print(inp[0])
     return True
 
+def createList(inp):
+    return inp
+
+def first(inp):
+    return inp[0][0]
+
+def last(inp):
+    inp[0].pop(0)
+    return inp [0]
+
+def listAppend(inp):
+    inp[0].append(inp [1])
+    return inp[0]
 # constants
 
 operators = [
     {
         "ident" : "+",
-        "varCount": 2,
         "function": add 
     },
     {
         "ident" : "=",
-        "varCount": 2,
         "function": comp
     },
     {
         "ident": "print",
-        "varCount": 1,
         "function": consoleLog
     },
     {
         "ident": "list",
-        "varCount": 1,
-        "function": consoleLog
-    }
+        "function": createList
+    },
+    {
+        "ident": "first",
+        "function": first
+    },
+    {
+        "ident": "last",
+        "function": last
+    },
+    {
+        "ident": "append",
+        "function": listAppend
+    },
 ]
