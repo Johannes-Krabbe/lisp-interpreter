@@ -1,12 +1,8 @@
-from ast import operator
-
 definitions = {}
 
 def interpret(input):
     if input[0] != "(":
         raise Exception("missing '(' at beginning of statement")
-        return
-    
 
     lines = input.split("\n")
     
@@ -139,7 +135,6 @@ def lambdaFunc(inp):
     print(inp)
 
 # constants
-
 operators = [
     {
         "ident" : "+",
