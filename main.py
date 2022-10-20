@@ -1,16 +1,23 @@
 from ast import operator
 
+definitions = {}
 
 def interpret(input):
     if input[0] != "(":
         raise Exception("missing '(' at beginning of statement")
         return
     
-    input_arr = input.split(" ")
-    
-    out = t(input_arr)
 
-    return out
+    lines = input.split("\n")
+    
+    out = []
+
+    for l in lines:
+        input_arr = l.split(" ")
+    
+        out.append(t(input_arr))
+
+    return out[-1]
 
     
 def t(input_arr):    
@@ -45,8 +52,26 @@ def t(input_arr):
                 params.append(tmp)
 
 
+    for i in range(len(params)):
+        if params[i] in definitions.keys():
+            params[i] = definitions[params[i]]
+
     out = oper["function"](params)
     return out
+
+# helpers
+def arrToString(inp):
+    out = "(" + inp.pop(0) 
+
+    for item in inp:
+        out = out + " " + item
+
+    out =  out + ")"
+
+    return out
+
+def stringToArr(inp):
+    return inp.replace(")", "").replace("(", "").split(" ")
 
 # functions
 def add(inp):
@@ -63,18 +88,24 @@ def consoleLog(inp):
     return True
 
 def createList(inp):
-    return inp
+    return arrToString(inp) 
 
 def first(inp):
-    return inp[0][0]
+    return stringToArr(inp[0])[0]
 
 def last(inp):
-    inp[0].pop(0)
-    return inp [0]
+    tmp = stringToArr(inp[0])
+    tmp.pop(0)
+    return arrToString(tmp)
 
 def listAppend(inp):
-    inp[0].append(inp [1])
-    return inp[0]
+    tmp = stringToArr(inp[0])
+    tmp.append(inp[1])
+    return arrToString(tmp)
+
+def define(inp):
+    definitions[inp[0]] = inp[1]
+
 # constants
 
 operators = [
@@ -105,5 +136,9 @@ operators = [
     {
         "ident": "append",
         "function": listAppend
+    },
+    {
+        "ident": "define",
+        "function": define 
     },
 ]
