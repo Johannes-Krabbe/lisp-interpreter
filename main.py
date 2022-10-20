@@ -35,6 +35,30 @@ def t(input_arr):
         return
 
     params = []
+
+    if(oper["ident"] == "lambda"):
+        inParams = []
+        while(input_arr[0].count(")") == 0):
+            inParams.append(input_arr.pop(0).replace("(", ""))            
+        inParams.append(input_arr.pop(0).replace(")", ""))            
+
+        params.append(inParams)
+
+        closeBrCount = -1
+
+        funcContent = []
+        
+        while closeBrCount != 0:
+            funcContent.append(input_arr.pop(0))            
+            closeBrCount = closeBrCount + funcContent[-1].count(")")
+            closeBrCount = closeBrCount - funcContent[-1].count("(")
+
+        funcContent[-1] = funcContent[-1][:-1]
+
+        params.append(funcContent)    
+        out = oper["function"](params)
+        return out
+
     
     while(len(input_arr) != 0):
         if(input_arr[0][0] == "("):
@@ -81,7 +105,7 @@ def comp(inp):
     if(inp[0] == inp[1]):
         return True
     else:
-        return []
+        return "()"
 
 def consoleLog(inp):
     print(inp[0])
@@ -105,6 +129,14 @@ def listAppend(inp):
 
 def define(inp):
     definitions[inp[0]] = inp[1]
+
+def ifFunc(inp):
+    if(inp[0] == True):
+        return inp[1]
+    return inp[2]
+
+def lambdaFunc(inp):
+    print(inp)
 
 # constants
 
@@ -140,5 +172,13 @@ operators = [
     {
         "ident": "define",
         "function": define 
+    },
+    {
+        "ident": "if",
+        "function": ifFunc
+    },
+    {
+        "ident": "lambda",
+        "function": lambdaFunc
     },
 ]

@@ -22,7 +22,7 @@ def runTests():
     
     # bool test
     assert(interpret("(= 1 1)") == True)
-    assert(interpret("(= 1 2)") == [])
+    assert(interpret("(= 1 2)") == "()")
     print_green("Tests passed: =")
 
     # print test
@@ -52,11 +52,17 @@ def runTests():
     assert(interpret("(define c (+ 1 2))\n(+ c c)") == "6")
     print_green("Tests passed: define")
 
+    # test define
+    assert(interpret("(if (= 1 1) 5 2)") == "5")
+    assert(interpret("(if (= 1 2) 5 (+ 1 2))") == "3")
+    print_green("Tests passed: if")
+
 
 
 
 if __name__ == "__main__":
 
-    # assert(interpret("(define a (+ 1 2))\n(= a 3)") == True)
-    runTests()
+    interpret("(lambda (a b) (+ a b))")
+
+    # runTests()
 
